@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<div class="discussion-container">
+  <h1>Discussion Board</h1>
+
+  {% if user.is_authenticated %}
+    <form method="POST" action="{% url 'mechanix:discussion' %}">
+      {% csrf_token %}
+      <textarea name="content" rows="4" cols="50" placeholder="Share your thoughts..." required></textarea><br>
+      <button type="submit">Post</button>
+    </form>
+    <hr>
+
+    <h2>Recent Posts</h2>
+    {% for post in posts %}
+      <div class="post">
+        <p><strong>{{ post.user.username }}</strong> said:</p>
+        <p>{{ post.content }}</p>
+        <small>{{ post.created_at|date:"M d, Y H:i" }}</small>
+
+        {% if post.user == user %}
+          <div class="post-actions">
+            <a href="{% url 'mechanix:edit_post' post.id %}">Edit</a> |
+            <a href="{% url 'mechanix:delete_post' post.id %}">Delete</a>
+          </div>
+        {% endif %}
+        <hr>
+      </div>
+    {% empty %}
+      <p>No posts yet. Start the conversation!</p>
+    {% endfor %}
+
+  {% else %}
+    <p>You must <a href="{% url 'mechanix:login' %}">log in</a> to view and participate in discussions.</p>
+  {% endif %}
+</div>
+
+{% endblock %}
