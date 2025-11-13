@@ -1,25 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/login.css">
-    <title>Login</title>
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
 
-</head>
-<body>
-    <div class="login-container">
-        <h2>Login</h2>
-        <form method="POST" action="{% url 'mechanix:login' %}">
-            {% csrf_token %}
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username" required>
+<link rel="stylesheet" href="{% static 'css/login.css' %}">
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+<div class="login-container">
+  <h2>Login</h2>
 
-            <button type="submit">Login</button>
-        </form>
-    </div>
-</body>
-</html>
+  <form method="post" action="{% url 'mechanix:login' %}">
+    {% csrf_token %}
+    {% if form.errors %}
+      <p class="error">Invalid username or password.</p>
+    {% endif %}
+
+    <!-- Important: preserve ?next for smart redirect -->
+    <input type="hidden" name="next" value="{{ next }}">
+
+    <label for="id_username">Username:</label><br>
+    <input type="text" name="username" id="id_username" required><br><br>
+
+    <label for="id_password">Password:</label><br>
+    <input type="password" name="password" id="id_password" required><br><br>
+
+    <button type="submit">Log In</button>
+  </form>
+
+  <p>Don't have an account? <a href="{% url 'mechanix:signup' %}">Sign up here</a>.</p>
+
+  <p><a href="{% url 'mechanix:welcome' %}">Back to Welcome</a></p>
+</div>
+
+{% endblock %}
