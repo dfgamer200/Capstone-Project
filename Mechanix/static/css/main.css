@@ -1,33 +1,53 @@
-h1{
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-image: url("../images/leather.png");
+    background-size: cover;        /* makes background dynamic */
+    background-repeat: no-repeat;
+    background-attachment: fixed;  /* optional: creates parallax feel */
+    background-position: center;
+    padding: 20px;
+}
+
+/* HEADINGS & PARAGRAPHS */
+h1 {
     text-align: center;
     color: #ffffff;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
-    font-size: 2.5em;
+    font-size: clamp(1.8rem, 2.5vw, 2.5em); /* responsive sizing */
     margin-bottom: 20px;
 }
 
-p{
+p {
     text-align: center;
     color: #ffffff;
     text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.9);
-    font-size: 1.3em;
+    font-size: clamp(1rem, 1.2vw, 1.3em); /* responsive text */
     line-height: 1.6;
-    max-width: 800px;
+    max-width: 900px;
     margin: 20px auto;
     padding: 0 20px;
 }
 
-html{
-    background-image: url("../images/leather.png");
-}
-
+/* NAVIGATION */
 nav ul {
-    list-style-type: none;
+    list-style: none;
     text-align: center;
     background-color: rgba(255, 255, 255, 0.9);
     padding: 10px 0;
     border-radius: 8px;
-    max-width: 800px;
+    width: 100%;
+    max-width: 900px;
     margin: 20px auto;
 }
 
@@ -38,8 +58,7 @@ nav ul li {
 nav ul li a {
     display: block;
     color: #333;
-    text-align: center;
-    padding: 14px 16px;
+    padding: 14px 20px;
     text-decoration: none;
     font-weight: bold;
     font-size: 1.1em;
@@ -52,23 +71,34 @@ nav ul li a:hover {
     border-radius: 5px;
 }
 
-img{
+/* IMAGES */
+img {
     display: block;
     margin: 30px auto;
-    width: auto;
-    max-width: 400px;
+    width: 100%;         /* responsive */
+    max-width: 400px;    /* keeps it from becoming huge */
+    height: auto;
     filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.5));
 }
 
+/* BUTTONS */
 .logout-btn {
-  background-color: #007bff;
-  color: white;
-  padding: 8px 16px;
-  border-radius: 6px;
-  text-decoration: none;
-  transition: background-color 0.3s ease;
+    background-color: #007bff;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
 }
 
 .logout-btn:hover {
-  background-color: #0056b3;
+    background-color: #0056b3;
+}
+
+/* MOBILE FRIENDLY NAV */
+@media (max-width: 600px) {
+    nav ul li {
+        display: block;
+        margin: 5px 0;
+    }
 }
