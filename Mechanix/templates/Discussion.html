@@ -2,39 +2,68 @@
 {% load static %}
 {% block content %}
 
+<link rel="stylesheet" href="{% static 'css/discussion.css' %}">
+
 <div class="discussion-container">
   <h1>Discussion Board</h1>
 
+
+  <p class="back-home">
+  <a href="{% url 'mechanix:welcome' %}">← Back to Home</a>
+  </p>
+
+
   {% if user.is_authenticated %}
-    <form method="POST" action="{% url 'mechanix:discussion' %}">
+    <form method="POST" action="{% url 'mechanix:discussion' %}" class="new-post-form">
       {% csrf_token %}
-      <textarea name="content" rows="4" cols="50" placeholder="Share your thoughts..." required></textarea><br>
+      <textarea name="content" rows="4" placeholder="What's on your mind?" required></textarea>
       <button type="submit">Post</button>
     </form>
-    <hr>
+  {% else %}
+    <p class="login-prompt">
+      You must <a href="{% url 'mechanix:login' %}">log in</a> to post or vote.
+    </p>
+  {% endif %}
 
+  <div class="posts-section">
     <h2>Recent Posts</h2>
     {% for post in posts %}
-      <div class="post">
-        <p><strong>{{ post.user.username }}</strong> said:</p>
-        <p>{{ post.content }}</p>
-        <small>{{ post.created_at|date:"M d, Y H:i" }}</small>
+      <div class="post-card">
+        <div class="vote-column">
+          {% if user.is_authenticated %}
+            <a href="{% url 'mechanix:vote' post.id 'upvote' %}" class="vote-btn">▲</a>
+          {% else %}
+            <span class="vote-btn disabled">▲</span>
+          {% endif %}
 
-        {% if post.user == user %}
-          <div class="post-actions">
-            <a href="{% url 'mechanix:edit_post' post.id %}">Edit</a> |
-            <a href="{% url 'mechanix:delete_post' post.id %}">Delete</a>
-          </div>
-        {% endif %}
-        <hr>
+          <span class="vote-count">{{ post.vote_score }}</span>
+
+          {% if user.is_authenticated %}
+            <a href="{% url 'mechanix:vote' post.id 'downvote' %}" class="vote-btn">▼</a>
+          {% else %}
+            <span class="vote-btn disabled">▼</span>
+          {% endif %}
+        </div>
+
+        <div class="post-content">
+          <p class="post-meta">
+            <strong>{{ post.user.username }}</strong>
+            <span>• {{ post.created_at|date:"M d, Y H:i" }}</span>
+          </p>
+          <p class="post-text">{{ post.content }}</p>
+
+          {% if post.user == user %}
+            <div class="post-actions">
+              <a href="{% url 'mechanix:edit_post' post.id %}" class="edit-link">Edit</a>
+              <a href="{% url 'mechanix:delete_post' post.id %}" class="delete-link">Delete</a>
+            </div>
+          {% endif %}
+        </div>
       </div>
     {% empty %}
-      <p>No posts yet. Start the conversation!</p>
+      <p class="empty-feed">No posts yet. Be the first to share something!</p>
     {% endfor %}
-
-  {% else %}
-    <p>You must <a href="{% url 'mechanix:login' %}">log in</a> to view and participate in discussions.</p>
-  {% endif %}
+  </div>
 </div>
 
 {% endblock %}

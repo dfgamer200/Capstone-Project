@@ -29,4 +29,7 @@ urlpatterns = [
 
     path('discussion/delete/<int:post_id>/', views.delete_post, name='delete_post'),
 
+    path('vote/<int:post_id>/<str:vote_type>/', views.vote_view, name='vote'),
+
+
 ]

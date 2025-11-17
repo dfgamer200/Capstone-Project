@@ -1,9 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .models import DiscussionPost
+from .models import DiscussionPost, Vote, Post, Shop
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
+from django.http import JsonResponse, HttpResponseRedirect
+import json
+
 
 # Create your views here.
 
@@ -48,7 +51,17 @@ def signup_view(request):
 
 
 def findShop(request):
-	return render(request, "FindAShop.html")
+    shops = Shop.objects.all()
+    shops_json = json.dumps([
+        {
+            "name": s.name,
+            "address": s.address,
+            "latitude": s.latitude,
+            "longitude": s.longitude,
+        }
+        for s in shops
+    ])
+    return render(request, "FindAShop.html", {"shops_json": shops_json})
 
 @login_required(login_url='mechanix:login')
 def discussion(request):
@@ -90,3 +103,30 @@ def delete_post(request, post_id):
 
 def troubleshoot(request):
 	return render(request, "Troubleshoot.html")
+
+@login_required
+def vote_view(request, post_id, vote_type):
+    post = get_object_or_404(Post, id=post_id)
+
+    # Determine vote value (+1 for upvote, -1 for downvote)
+    value = 1 if vote_type == "upvote" else -1
+
+    # Check if the user already voted
+    existing_vote = Vote.objects.filter(user=request.user, post=post).first()
+
+    if existing_vote:
+        if existing_vote.value == value:
+            existing_vote.delete()  # Clicking same arrow again removes the vote
+        else:
+            existing_vote.value = value  # Change upvote ↔ downvote
+            existing_vote.save()
+    else:
+        Vote.objects.create(user=request.user, post=post, value=value)
+
+    # Redirect back to the discussion page
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+
+
+def find_shop_view(request):
+    shops = list(Shop.objects.values('name', 'latitude', 'longitude', 'address'))
+    return render(request, 'find_shop.html', {'shops': shops})

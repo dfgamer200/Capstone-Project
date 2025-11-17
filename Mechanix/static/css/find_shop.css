@@ -1,0 +1,69 @@
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: url("{% static 'images/leather.png' %}") no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+}
+
+/* Container for the map and title */
+.map-container {
+    background-color: rgba(255, 255, 255, 0.97); /* slightly opaque for readability */
+    padding: 35px;
+    margin: 40px 0;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    width: 90%;
+    max-width: 1000px;
+    text-align: center;
+}
+
+/* Page title */
+.map-container h2 {
+    color: #222;
+    margin-bottom: 25px;
+    font-size: 28px;
+}
+
+/* Map styling */
+#map {
+    width: 100%;
+    height: 600px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    #map {
+        height: 400px;
+    }
+
+    .map-container {
+        padding: 25px;
+    }
+
+    .map-container h2 {
+        font-size: 24px;
+    }
+}
+
+@media (max-width: 480px) {
+    #map {
+        height: 300px;
+    }
+
+    .map-container h2 {
+        font-size: 20px;
+    }
+}
+
+#map {
+    width: 100%;
+    height: 500px;
+}
