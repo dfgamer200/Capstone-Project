@@ -1,10 +1,14 @@
-{%load static%}
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{% block title %}Mechanix{% endblock %}</title>
+    <title>{% block title %}Mechanix{% endblock %}</title>
+
+    <!-- Global CSS for entire site -->
+    <link rel="stylesheet" href="{% static 'css/find_shop.css' %}">
 </head>
+
 <body>
-  {% block content %}{% endblock %}
+    {% block content %}{% endblock %}
 </body>
 </html>

@@ -1,25 +1,29 @@
 {% extends "base.html" %}
 {% load static %}
-
 {% block content %}
 
-<!-- Custom CSS -->
+<!-- Page-specific CSS -->
 <link rel="stylesheet" href="{% static 'css/find_shop.css' %}">
 
+<!-- Back Button -->
+<div class="back-button-container">
+    <a href="{% url 'mechanix:welcome' %}" class="back-btn">← Back to Home</a>
+</div>
+
+<!-- Main Map Container -->
 <div class="map-container">
     <h2>Find a Shop Near You</h2>
     <div id="map"></div>
 </div>
 
-<!-- Google Maps JS (replace YOUR_API_KEY with your actual Google Maps API key) -->
+<!-- Google Maps API -->
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyABlz9eEyyl23cmGySsNflg_AQOJK_I8xo&libraries=places"></script>
-
 
 <script>
 var shops = {{ shops_json|safe }};
 
 function initMap() {
-    // Default center
+    // Default center location
     var defaultCenter = { lat: 37.7749, lng: -122.4194 };
 
     var map = new google.maps.Map(document.getElementById('map'), {
@@ -27,7 +31,7 @@ function initMap() {
         zoom: 12
     });
 
-    // --- Add your Django shop markers ---
+    // Add shop markers from Django
     shops.forEach(function(shop) {
         var marker = new google.maps.Marker({
             position: { lat: shop.latitude, lng: shop.longitude },
@@ -43,7 +47,7 @@ function initMap() {
         marker.addListener("click", () => info.open(map, marker));
     });
 
-    // --- Get user location ---
+    // Get user location
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(function(position) {
             var userPos = {
@@ -54,7 +58,7 @@ function initMap() {
             map.setCenter(userPos);
             map.setZoom(13);
 
-            // Mark user location
+            // User location marker
             new google.maps.Marker({
                 position: userPos,
                 map: map,
@@ -62,17 +66,14 @@ function initMap() {
                 icon: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
             });
 
-            // Search nearby auto shops
             findNearbyAutoShops(map, userPos);
         });
     }
 }
 
-// --- SEARCH FUNCTION ---
 function findNearbyAutoShops(map, location) {
     var service = new google.maps.places.PlacesService(map);
 
-    // Search for 3 types of places:
     var typesToSearch = [
         { type: "car_repair", label: "Mechanic" },
         { type: "car_dealer", label: "Auto Shop" },
@@ -82,7 +83,7 @@ function findNearbyAutoShops(map, location) {
     typesToSearch.forEach(search => {
         service.nearbySearch({
             location: location,
-            radius: 5000,  // 5 km search
+            radius: 5000,
             type: search.type,
             keyword: search.keyword || null
         }, function(results, status) {
@@ -112,6 +113,5 @@ function addPlaceMarker(map, place, label) {
 
 window.onload = initMap;
 </script>
-
 
 {% endblock %}

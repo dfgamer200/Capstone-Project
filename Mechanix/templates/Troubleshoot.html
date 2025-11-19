@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'css/troubleshooting.css' %}">
+
+<!-- Back Button -->
+<div class="back-button-container">
+    <a href="{% url 'mechanix:welcome' %}" class="back-btn">Back to Home</a>
+</div>
+
+<div class="troubleshooting-container">
+    <h1>Vehicle Troubleshooting Guide</h1>
+
+    <p class="lead">
+        Below are some of the most common issues drivers experience and how you can diagnose and fix them.
+    </p>
+
+    <hr class="troubleshooting-divider">
+
+    <!-- Engine Won’t Start -->
+    <section class="troubleshooting-section">
+        <h3>1. Engine Won’t Start</h3>
+        <p><strong>Common Causes:</strong></p>
+        <ul>
+            <li>Dead or weak battery</li>
+            <li>Corroded battery terminals</li>
+            <li>Faulty starter motor</li>
+            <li>No fuel or a clogged fuel filter</li>
+        </ul>
+        <p><strong>How to Fix:</strong></p>
+        <ul>
+            <li>Check battery voltage or attempt a jump-start</li>
+            <li>Clean corrosion from the terminals</li>
+            <li>Listen for clicking (possible starter issue)</li>
+            <li>Ensure the vehicle has enough fuel</li>
+            <li>Replace the fuel filter if clogged</li>
+        </ul>
+    </section>
+
+    <!-- Check Engine Light -->
+    <section class="troubleshooting-section">
+        <h3>2. Check Engine Light Is On</h3>
+        <p><strong>Common Causes:</strong></p>
+        <ul>
+            <li>Loose or faulty gas cap</li>
+            <li>Bad oxygen sensor</li>
+            <li>Mass airflow sensor malfunction</li>
+            <li>Catalytic converter issues</li>
+        </ul>
+        <p><strong>How to Fix:</strong></p>
+        <ul>
+            <li>Tighten or replace the gas cap</li>
+            <li>Read trouble codes using an OBD-II scanner</li>
+            <li>Replace failing sensors as indicated</li>
+            <li>Visit a mechanic if the issue persists</li>
+        </ul>
+    </section>
+
+    <!-- Overheating -->
+    <section class="troubleshooting-section">
+        <h3>3. Engine Overheating</h3>
+        <p><strong>Common Causes:</strong></p>
+        <ul>
+            <li>Low coolant level</li>
+            <li>Faulty thermostat</li>
+            <li>Radiator blockage or leak</li>
+            <li>Cooling fan failure</li>
+        </ul>
+        <p><strong>How to Fix:</strong></p>
+        <ul>
+            <li>Refill coolant to the proper level</li>
+            <li>Inspect for leaks in hoses or radiator</li>
+            <li>Replace the thermostat</li>
+            <li>Ensure cooling fans are operating correctly</li>
+        </ul>
+    </section>
+
+    <!-- Strange Noises -->
+    <section class="troubleshooting-section">
+        <h3>4. Strange Noises While Driving</h3>
+        <p><strong>Common Causes:</strong></p>
+        <ul>
+            <li>Squealing brakes</li>
+            <li>Loose belts or pulleys</li>
+            <li>Worn suspension components</li>
+            <li>Failing wheel bearings</li>
+        </ul>
+        <p><strong>How to Fix:</strong></p>
+        <ul>
+            <li>Inspect and replace brake pads/rotors</li>
+            <li>Retighten or replace worn belts</li>
+            <li>Have suspension checked for wear</li>
+            <li>Replace damaged wheel bearings</li>
+        </ul>
+    </section>
+
+    <!-- Battery Draining -->
+    <section class="troubleshooting-section">
+        <h3>5. Battery Draining Quickly</h3>
+        <p><strong>Common Causes:</strong></p>
+        <ul>
+            <li>Failing alternator</li>
+            <li>Parasitic electrical drain</li>
+            <li>Aging battery</li>
+        </ul>
+        <p><strong>How to Fix:</strong></p>
+        <ul>
+            <li>Test alternator voltage output</li>
+            <li>Ensure lights/electronics are turned off</li>
+            <li>Perform a parasitic draw test</li>
+            <li>Replace older batteries (4–5+ years)</li>
+        </ul>
+    </section>
+
+    <hr class="troubleshooting-divider">
+
+    <p class="troubleshooting-footer">
+        When unsure about a repair, always consult a certified mechanic for safety and accuracy.
+    </p>
+</div>
+
+{% endblock %}
